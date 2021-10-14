@@ -26,7 +26,7 @@ int main(int, char **)
 	double fps = 30; //每秒的帧数
 	char file_out[] = "Task_2.avi";
 
-	VideoCapture inVid("/home/sandwich/文档/学习/task_2/in/能量机关_1.avi");
+	VideoCapture inVid("../in/能量机关_1.avi");
 
 	if (!inVid.isOpened())
 	{ //检查错误
@@ -113,9 +113,9 @@ int main(int, char **)
 
 				//通过面积筛选
 				double area = height * width;
-				if (area > 5000)
+				if (area > 5000 && area < 6200)
 				{
-
+					//对矩形顶点进行赋值
 					dstRect[0] = Point2f(0, 0);
 					dstRect[1] = Point2f(width, 0);
 					dstRect[2] = Point2f(width, height);
@@ -130,18 +130,22 @@ int main(int, char **)
 					// 提取扇叶图片
 					Mat testim;
 					testim = perspectMat(Rect(0, 0, width, height));
-					int cnnt = 0;
-					//用于保存扇叶图片，以便接下来训练svm
-					// string s = "leaf" + to_string(cnnt) + ".jpg";
-					// cnnt++;
-					// imwrite("./img/" + s, testim);
-					//imshow("testim", testim);
+					// int cnnt = 0;
+					// //用于保存扇叶图片，以便接下来训练svm
+					// int tem = 0;
+					// tem++;
+					// string s = "leaf" + to_string(tem) + ".jpg";
+					// imwrite("/home/sandwich/文档/学习/task_2/img/" + s, testim);
+					// imshow("testim", testim);
 
-					if (testim.empty())
-					{
-						cout << "filed open" << endl;
-						return -1;
-					}
+					
+					
+
+					//if (testim.empty())
+					//{
+					//	cout << "filed open" << endl;
+					//	return -1;
+					//}
 
 					cv::Point matchLoc;
 					double value;
@@ -153,10 +157,14 @@ int main(int, char **)
 					vector<double> Vvalue1;
 					vector<double> Vvalue2;
 					Mat templ[9];
+
+
+
 					for (int i = 1; i <= 8; i++)
 					{
-						templ[i] = imread("/home/sandwich/文档/学习/task_2/template/template" + to_string(i) + ".jpg", IMREAD_GRAYSCALE);
+						templ[i] = imread("../template/template" + to_string(i) + ".jpg", IMREAD_GRAYSCALE);
 					}
+					//模板匹配
 					for (int j = 1; j <= 6; j++)
 					{
 						value = TemplateMatch(tmp1, templ[j], matchLoc, TM_CCOEFF_NORMED);
@@ -187,14 +195,14 @@ int main(int, char **)
 					// cout << Vvalue1[maxv1] << endl;
 					// 	cout << Vvalue2[maxv2] << endl;
 
-					// //转化为svm所要求的格式
-					// Mat test = get(testim);
+					//转化为svm所要求的格式
+					//Mat test = get(testim);
 
-					// 					//预测是否是要打击的扇叶
+					//预测是否是要打击的扇叶
 
 					if (Vvalue1[maxv1] > Vvalue2[maxv2] && Vvalue1[maxv1] > 0.6)
 
-					// if (svm->predict(test) >= 0.9)
+					
 
 					{
 						findTarget = true;
@@ -204,9 +212,9 @@ int main(int, char **)
 							RotatedRect rect_tmp = minAreaRect(contours2[hierarchy2[i][2]]);
 							Point2f Pnt[4];
 							rect_tmp.points(Pnt);
-							const float maxHWRatio = 0.7153846;
+							const float maxHWRatio =1;
 							const float maxArea = 2000;
-							const float minArea = 500;
+							const float minArea = 600;
 
 							float width = rect_tmp.size.width;
 							float height = rect_tmp.size.height;
@@ -219,11 +227,11 @@ int main(int, char **)
 								continue;
 							}
 							Point centerP = rect_tmp.center;
-							//打击点
-							circle(in_frame, centerP, 1, Scalar(0, 255, 0), 2);
+						
+							
 							for (int j = 0; j < 4; ++j)
 							{
-								line(in_frame, Pnt[j], Pnt[(j + 1) % 4], Scalar(0, 255, 255), 2);
+								line(in_frame, Pnt[j], Pnt[(j + 1) % 4],Scalar(0, 0, 255), 4);
 							}
 						}
 					}
@@ -257,8 +265,9 @@ double TemplateMatch(cv::Mat image, cv::Mat tepl, cv::Point &point, int method)
 	//    cout <<result_cols<<" "<<result_rows<<endl;
 	cv::Mat result = cv::Mat(result_cols, result_rows, CV_32FC1);
 	cv::matchTemplate(image, tepl, result, method);
-
+        //最小位置指针和最大位置指针
 	double minVal, maxVal;
+	
 	cv::Point minLoc, maxLoc;
 	cv::minMaxLoc(result, &minVal, &maxVal, &minLoc, &maxLoc, Mat());
 

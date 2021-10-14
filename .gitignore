@@ -1,9 +1,6 @@
 .vscode
 build
 Camera
-*.avi
-*.mp4
 *.csv
-*.jpg
 data
 hotspot
