@@ -4,7 +4,7 @@ using namespace std;
 #include <opencv2/opencv.hpp>
 
 using namespace cv;
-using namespace std;
+
 
 //寻找周长最大的两个轮廓所用函数
 void BubbleSort(int arr[], int n);
