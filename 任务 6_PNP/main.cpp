@@ -1,7 +1,7 @@
 #include <iostream>
-#include <Eigen/Dense>
+// #include <Eigen/Dense>
 #include <opencv2/opencv.hpp>
-#include <opencv2/core/eigen.hpp>
+// #include <opencv2/core/eigen.hpp>
 #include <math.h>
 
 //视频中装甲板实际参数，长67.5mm，宽：26.5mm
@@ -10,7 +10,7 @@
 
 using namespace cv;
 using namespace std;
-using namespace Eigen;
+// using namespace Eigen;
 void find_contours_index(vector<vector<Point>> cts, int *p_index_array);
 int find_max_index(int a[], int n);
 int find_second_index(int a[], int n, int max_index);
@@ -19,14 +19,14 @@ int find_y_max_Point_index(vector<Point> a, int n);
 int main()
 {
 
-	FileStorage fs2("D:/code_smz/task6/cameraparam.yml", FileStorage::READ);
+	FileStorage fs2("../cameraparam.yml", FileStorage::READ);
 	Mat cameraMatrix2, distCoeffs2;
 	fs2["camera_matrix"] >> cameraMatrix2;
 	fs2["distortion_coefficients"] >> distCoeffs2;
 	// cout << cameraMatrix2 << endl;
 	// cout << distCoeffs2 << endl;
 
-	VideoCapture inVideo("D:/code_smz/RM实习/22视觉实习任务/任务1/装甲板_1.avi");
+	VideoCapture inVideo("../装甲板_1.avi");
 	double fps = 30; //每秒的帧数
 	if (!inVideo.isOpened())
 	{ //检查错误
