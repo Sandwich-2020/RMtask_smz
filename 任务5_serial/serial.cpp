@@ -69,7 +69,7 @@ int main()
     
 
     int identify;
-    identify=write(fd, buffer, strlen(buffer));
+    identify=write(fd, transmission, strlen(transmission));
     if (identify < 0)
     {
         cout << "Error writting!" << endl;
