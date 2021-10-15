@@ -1,0 +1,8 @@
+prefix=/home/sandwich/文档/学习/task_smz/任务7/ros_ws/devel
+
+Name: pub_sub_test
+Description: Description of pub_sub_test
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

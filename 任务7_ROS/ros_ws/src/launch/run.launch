@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="pub_sub_test" name = "node_a" type = "publisher" output="screen" />
+    <node pkg="pub_sub_test" name = "node_b" type = "subscriber" output="screen" /> 
+</launch>
